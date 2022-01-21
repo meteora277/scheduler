@@ -7,27 +7,37 @@ import axios from "axios";
 import { getAppointmentsForDay } from "helpers/selectors";
 
 export default function Application() {
-  
-  const [state, setState] = useState({days:[], day: "Monday", appointments: []})
-  
+  const [state, setState] = useState({
+    days: [],
+    day: "Monday",
+    appointments: [],
+    interviewers: {}
+  });
+
   const setDay = (day) => {
-    setState(prev => ({...prev, day}))
-  }
-
-
+    setState((prev) => ({ ...prev, day }));
+  };
 
   useEffect(() => {
-
     Promise.all([
-      axios.get('http://localhost:8001/api/days'),
-      axios.get('http://localhost:8001/api/appointments'),
-      axios.get('http://localhost:8001/api/interviewers')
-    ])
-    .then((all) => {
-      const [days, appointments, interviewers] = all
-      setState((prev) =>  ({...prev, days: days.data, appointments: Object.values(appointments.data), interviewers: interviewers.data}))
-    })
-  },[])
+      axios.get("http://localhost:8001/api/days"),
+      axios.get("http://localhost:8001/api/appointments"),
+      axios.get("http://localhost:8001/api/interviewers")
+    ]).then((all) => {
+      const [days, appointments, interviewers] = all;
+      setState((prev) => ({
+        ...prev,
+        days: days.data,
+        appointments: appointments.data,
+        interviewers: interviewers.data
+      }));
+    });
+  }, []);
+
+  const schedule = getAppointmentsForDay(state, state.day).map((appointment) => {
+    return <Appointment key={appointment.id} {...appointment} />;
+  });
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -38,7 +48,7 @@ export default function Application() {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={state.days} onChange={setDay} value={state.day}/>
+          <DayList days={state.days} onChange={setDay} value={state.day} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -46,19 +56,7 @@ export default function Application() {
           alt="Lighthouse Labs"
         />
       </section>
-      <section className="schedule">
-        {console.log(state)}
-        {console.log(getAppointmentsForDay(state, state.day))}
-        {getAppointmentsForDay(state, state.day).map(appointment => {
-          return (
-            <Appointment 
-              key={appointment.id}
-              {...appointment}
-            />
-          )
-        }
-      )}
-      </section>
+      <section className="schedule">{schedule}</section>
     </main>
   );
 }
