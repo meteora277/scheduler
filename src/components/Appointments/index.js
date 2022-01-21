@@ -6,6 +6,7 @@ import './styles.scss'
 
 
 function Appointment(props) {
+
   return(
     <article className='appointment'>
 
@@ -13,7 +14,7 @@ function Appointment(props) {
       {props.interview ? 
         <Show 
           student={props.interview.student}
-          interviewer={props.interview.interviewer}
+          interviewer={props.interviewer}
         /> 
         : 
         <Empty/>}
