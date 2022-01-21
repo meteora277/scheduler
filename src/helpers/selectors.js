@@ -8,7 +8,7 @@ export const getAppointmentsForDay = (state, appointmentDay) => {
   } else {
     let appointmentsOnFilteredDay =
       filteredByAppointmentDay[0].appointments.map((appointment) => {
-        return state.appointments[appointment - 1];
+        return state.appointments[appointment];
       });
     return appointmentsOnFilteredDay;
   }
