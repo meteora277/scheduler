@@ -13,3 +13,13 @@ export const getAppointmentsForDay = (state, appointmentDay) => {
     return appointmentsOnFilteredDay;
   }
 };
+
+export const getInterview = (state, interview) => { 
+
+  if (interview) {
+    return {student: interview.student, interviewer: state.interviewers[interview.interviewer]}
+  } else {
+    return null
+  }
+
+}
