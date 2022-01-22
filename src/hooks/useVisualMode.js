@@ -15,10 +15,11 @@ export const useVisualMode = (initialMode) => {
       })
     } else {
       setHistory(prev => [...prev, toMode])
+
     }
   }
   const back = () => {
-    if (history.length > 0) {
+    if (history.length > 1) {
       setHistory(prev => {
         let callStack = [...prev]
         callStack.pop()
@@ -29,6 +30,6 @@ export const useVisualMode = (initialMode) => {
 
   useEffect(() => setMode(history[history.length - 1]), [history])
 
-  return {mode, setMode, transition, back}
+  return {mode, transition, back}
 
 }
