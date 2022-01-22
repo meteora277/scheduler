@@ -1,5 +1,7 @@
 import { useVisualMode } from "hooks/useVisualMode";
 import React from "react";
+
+import Form from "./Form";
 import Empty from "./Empty";
 import Header from "./Header";
 import Show from "./Show";
@@ -7,11 +9,14 @@ import "./styles.scss";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
-const CREATE = "CREATE"
+const CREATE = "CREATE";
+const interviewers = [];
 
 function Appointment(props) {
-  const { mode, setMode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY);
-
+  const { mode, transition, back } = useVisualMode(
+    props.interview ? SHOW : EMPTY
+  );
+ 
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -22,7 +27,15 @@ function Appointment(props) {
           interviewer={props.interviewer}
         />
       ) : null}
-      {mode === "EMPTY" && <Empty onAdd={() => console.log("click")}/>}
+      {mode === "EMPTY" && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === "CREATE" && (
+        <Form
+          interviewers={interviewers}
+          onSave={() => console.log("ohhnn save")}
+          student={props.student}
+          onCancel={() => back()}
+        />
+      )}
     </article>
   );
 }
