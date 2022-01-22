@@ -14,12 +14,25 @@ export const getAppointmentsForDay = (state, appointmentDay) => {
   }
 };
 
-export const getInterview = (state, interview) => { 
-
+export const getInterview = (state, interview) => {
   if (interview) {
-    return {student: interview.student, interviewer: state.interviewers[interview.interviewer]}
+    return {
+      student: interview.student,
+      interviewer: state.interviewers[interview.interviewer]
+    };
   } else {
-    return null
+    return null;
   }
+};
 
-}
+export const getInterviewersForDay = (state, day) => {
+  const interviewers = state.days.interviewers;
+
+  if (interviewers.length === 0) {
+    return [];
+  } else {
+    interviewers.map((interviewer) => {
+      return state.interviewers[interviewer];
+    });
+  }
+};
