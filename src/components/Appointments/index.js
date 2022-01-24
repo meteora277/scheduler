@@ -35,7 +35,7 @@ function Appointment(props) {
       .then(() => transition(SHOW))
       .catch((err) => {
         console.log(err);
-        transition(ERROR_SAVE)
+        transition(ERROR_SAVE, true)
       });
   }
 
@@ -91,7 +91,10 @@ function Appointment(props) {
           onCancel={back}
         />
       )}
-      {mode === "ERROR_SAVE" && <Error message="Could not save appointment"/>}
+      {mode === "ERROR_SAVE" && <Error
+       message="Could not save appointment"
+       onClose={back}
+       />}
     </article>
   );
 }
