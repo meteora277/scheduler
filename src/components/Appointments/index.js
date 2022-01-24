@@ -8,6 +8,7 @@ import Show from "./Show";
 import "./styles.scss";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -15,7 +16,8 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
-const EDIT = "EDIT"
+const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE"
 
 function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -31,7 +33,10 @@ function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        transition(ERROR_SAVE)
+      });
   }
 
   function cancelInterview(id) {
@@ -67,7 +72,7 @@ function Appointment(props) {
         />
       )}
       {mode === "EDIT" && (
-        <Form 
+        <Form
           student={props.student}
           interviewers={props.interviewers}
           interviewer={props.interviewer.id}
@@ -86,6 +91,7 @@ function Appointment(props) {
           onCancel={back}
         />
       )}
+      {mode === "ERROR_SAVE" && <Error message="Could not save appointment"/>}
     </article>
   );
 }
