@@ -6,10 +6,12 @@ import Empty from "./Empty";
 import Header from "./Header";
 import Show from "./Show";
 import "./styles.scss";
+import Status from "./Status";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING"
 
 function Appointment(props) {
 
@@ -22,8 +24,10 @@ function Appointment(props) {
       student: name,
       interviewer
     };
+    transition(SAVING)
     props.bookInterview(props.id, interview)
-    transition(SHOW)
+    .then(() => transition(SHOW))
+    .catch(err => console.log(err))
   }
 
   return (
@@ -46,6 +50,7 @@ function Appointment(props) {
           onCancel={() => back()}
         />
       )}
+      {mode === "SAVING" && <Status message="Saving"/>}
     </article>
   );
 }
