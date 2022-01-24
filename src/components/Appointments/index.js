@@ -12,6 +12,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING"
+const DELETING = "DELETING"
 
 function Appointment(props) {
 
@@ -30,6 +31,14 @@ function Appointment(props) {
     .catch(err => console.log(err))
   }
 
+  function cancelInterview(id) {
+    transition(DELETING)
+    props.cancelInterview(id)
+      .then(() => transition("EMPTY"))
+      .catch((err) => console.log(err))
+
+  }
+
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -38,18 +47,19 @@ function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interviewer}
+          onDelete={() => cancelInterview(props.id)}
         />
       ) : null}
-      
       {mode === "EMPTY" && <Empty onAdd={() => transition(CREATE)} />}
       {mode === "CREATE" && (
         <Form
-          interviewers={props.interviewers}
-          onSave={save}
-          student={props.student}
-          onCancel={() => back()}
+        interviewers={props.interviewers}
+        onSave={save}
+        student={props.student}
+        onCancel={() => back()}
         />
-      )}
+        )}
+      {mode === "DELETING" && <Status message="Deleting"/>}
       {mode === "SAVING" && <Status message="Saving"/>}
     </article>
   );
