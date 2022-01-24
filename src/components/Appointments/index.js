@@ -10,7 +10,6 @@ import "./styles.scss";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
-const interviewers = [];
 
 function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -30,7 +29,7 @@ function Appointment(props) {
       {mode === "EMPTY" && <Empty onAdd={() => transition(CREATE)} />}
       {mode === "CREATE" && (
         <Form
-          interviewers={interviewers}
+          interviewers={props.interviewers}
           onSave={() => console.log("ohhnn save")}
           student={props.student}
           onCancel={() => back()}
