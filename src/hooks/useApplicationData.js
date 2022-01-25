@@ -44,7 +44,7 @@ export default function useApplicationData() {
     const dayIndex = state.days.findIndex(day => day.name === state.day)
     const daysCopy = [...state.days]
     const dayCopy = {...daysCopy[dayIndex]}
-    if (daysCopy[dayIndex].spots > 0) {
+    if (daysCopy[dayIndex].spots >= 0) {
       dayCopy.spots -= 1
     }
     daysCopy[dayIndex] = dayCopy
@@ -66,7 +66,7 @@ export default function useApplicationData() {
     const dayIndex = state.days.findIndex(day => day.name === state.day)
     const daysCopy = [...state.days]
     const dayCopy = {...daysCopy[dayIndex]}
-    if (daysCopy[dayIndex].spots > 0) {
+    if (daysCopy[dayIndex].spots >= 0) {
       dayCopy.spots += 1
     }
     daysCopy[dayIndex] = dayCopy
