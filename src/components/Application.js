@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import "components/Application.scss";
 import DayList from "./DayList";
 import Appointment from "./Appointments";
-import axios from "axios";
+
 import {
   getAppointmentsForDay,
   getInterview,
@@ -13,7 +13,7 @@ import useApplicationData from "hooks/useApplicationData";
 
 export default function Application() {
 
-  const {state, setState, setDay, bookInterview, cancelInterview} = useApplicationData()
+  const {state, setDay, bookInterview, cancelInterview} = useApplicationData()
   const schedule = getAppointmentsForDay(state, state.day).map(
     (appointment) => {
       const interview = getInterview(state, appointment.interview);
