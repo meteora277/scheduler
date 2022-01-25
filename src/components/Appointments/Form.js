@@ -38,6 +38,7 @@ function Form(props) {
             placeholder="Enter Student Name"
             value={student}
             onChange={handleChange}
+            data-testid="student-name-input"
 
           />
         </form>
