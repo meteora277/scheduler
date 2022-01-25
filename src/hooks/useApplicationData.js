@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAppointmentsForDay } from "helpers/selectors";
 const { useState, useEffect } = require("react");
 
 export default function useApplicationData() {
@@ -39,6 +38,8 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    //gets index of current selected day
+    //updates number of spots then updates state
     const dayIndex = state.days.findIndex(day => day.name === state.day)
     const days = [...state.days]
     if (days[dayIndex].spots > 0) {
