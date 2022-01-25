@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAppointmentsForDay } from "helpers/selectors";
 const { useState, useEffect } = require("react");
 
 export default function useApplicationData() {
@@ -38,9 +39,17 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const dayIndex = state.days.findIndex(day => day.name === state.day)
+    const days = [...state.days]
+    if (days[dayIndex].spots > 0) {
+      days[dayIndex].spots -= 1
+    }
+    
+    console.log(days)
+    
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => setState((prev) => ({ ...prev, appointments })));
+      .then(() => setState((prev) => ({ ...prev, appointments, days})));
   }
 
   async function cancelInterview(id) {
@@ -57,5 +66,5 @@ export default function useApplicationData() {
       .then(() => setState((prev) => ({ ...prev, appointments })));
   }
 
-  return {state, setState, setDay, bookInterview, cancelInterview}
+  return { state, setState, setDay, bookInterview, cancelInterview };
 }
