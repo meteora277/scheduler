@@ -15,8 +15,6 @@ function Form(props) {
 
   }
 
-  
-
   const reset = function() {
     setStudent('')
     setInterviewer(null)
