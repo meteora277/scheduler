@@ -30,6 +30,7 @@ export default function useApplicationData() {
   }, []);
 
   async function bookInterview(id, interview) {
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -41,16 +42,16 @@ export default function useApplicationData() {
     //gets index of current selected day
     //updates number of spots then updates state
     const dayIndex = state.days.findIndex(day => day.name === state.day)
-    const days = [...state.days]
-    if (days[dayIndex].spots > 0) {
-      days[dayIndex].spots -= 1
+    const daysCopy = [...state.days]
+    const dayCopy = {...daysCopy[dayIndex]}
+    if (daysCopy[dayIndex].spots > 0) {
+      dayCopy.spots -= 1
     }
-    
-    console.log(days)
-    
+    daysCopy[dayIndex] = dayCopy
+
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => setState((prev) => ({ ...prev, appointments, days})));
+      .then(() => setState((prev) => ({ ...prev, appointments, days: daysCopy})));
   }
 
   async function cancelInterview(id) {
@@ -62,9 +63,17 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const dayIndex = state.days.findIndex(day => day.name === state.day)
+    const daysCopy = [...state.days]
+    const dayCopy = {...daysCopy[dayIndex]}
+    if (daysCopy[dayIndex].spots > 0) {
+      dayCopy.spots += 1
+    }
+    daysCopy[dayIndex] = dayCopy
+
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(() => setState((prev) => ({ ...prev, appointments })));
+      .then(() => setState((prev) => ({ ...prev, appointments, days: daysCopy })));
   }
 
   return { state, setState, setDay, bookInterview, cancelInterview };
