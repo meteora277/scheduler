@@ -19,7 +19,7 @@ When you enter your information in it is stored in a database, and the page upda
 ##### you will be prompted with a confirm message
 ![Delete scheduled interview](/docs/delete-interview.gif)
 
-This project was created with React and the backend was provided by lighthouse labs
+This project was created with React and the backend was provided by lighthouse labs. During production we learned to use many different testing libraries, including Storybook, Jest, React-testing-library, and cypress. 
 
 
 ## Setup
