@@ -7,7 +7,8 @@ import Appointment from "./Appointments";
 import {
   getAppointmentsForDay,
   getInterview,
-  getInterviewersForDay
+  getInterviewersForDay,
+  getLastAppointmentDivider
 } from "helpers/selectors";
 import useApplicationData from "hooks/useApplicationData";
 
@@ -51,7 +52,7 @@ export default function Application() {
       </section>
       <section className="schedule">
         {schedule}
-        {schedule.length > 0 && <Appointment time="5pm" />}
+        {schedule.length > 0 && <Appointment time={`${getLastAppointmentDivider(state, state.day)}pm`} />}
       </section>
     </main>
   );
