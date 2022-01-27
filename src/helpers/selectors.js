@@ -1,4 +1,6 @@
 export const getAppointmentsForDay = (state, appointmentDay) => {
+
+  //matches selected day to day obj in state and returns an array of appointments on selected day
   let filteredByAppointmentDay = state.days.filter(
     (day) => day.name === appointmentDay
   );
@@ -27,7 +29,7 @@ export const getInterview = (state, interview) => {
 
 export const getInterviewersForDay = (state, filterDay) => {
 
-  //filter appointments array by given day 
+  //return an array of interviews. matches id's of selected day with an obj containing all interviewers
   let filteredDay = state.days.filter((day) => day.name === filterDay);
 
   if (filteredDay.length === 0) {
@@ -40,11 +42,12 @@ export const getInterviewersForDay = (state, filterDay) => {
     return availableInterviwers;
   }
 };
+
 export const getLastAppointmentDivider = (state, day) => {
   let appointments = getAppointmentsForDay(state, day)
   
   let lastAppointmentTime = appointments[appointments.length - 1].time
-  //remove am/pm from string
+  //remove pm from string
   let time = Number(lastAppointmentTime.replace("pm", ""))
 
   return time + 1
