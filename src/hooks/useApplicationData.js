@@ -21,9 +21,7 @@ export default function useApplicationData() {
   };
 
   const updateSpots = () => {
-
-    setState(prev => {
-
+    setState((prev) => {
       //string search days array to return index of current day
       const dayIndex = prev.days.findIndex((day) => day.name === prev.day);
 
@@ -34,14 +32,14 @@ export default function useApplicationData() {
       const dayCopy = { ...daysCopy[dayIndex] };
 
       //assigns it a new remaining spots value
-      dayCopy.spots = spotsFree(prev, prev.day)
+      dayCopy.spots = spotsFree(prev, prev.day);
 
       //reassigns copied obj to the days array
       daysCopy[dayIndex] = dayCopy;
-  
-      return ({...prev, days: daysCopy})
-    })
-  }
+
+      return { ...prev, days: daysCopy };
+    });
+  };
 
   useEffect(() => {
     Promise.all([
@@ -60,7 +58,6 @@ export default function useApplicationData() {
   }, []);
 
   async function bookInterview(id, interview) {
-    console.log(state);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -73,10 +70,9 @@ export default function useApplicationData() {
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
-        setState(prev => ({ ...prev, appointments}));
-        updateSpots()
-      })
-  
+        setState((prev) => ({ ...prev, appointments }));
+        updateSpots();
+      });
   }
 
   async function cancelInterview(id) {
@@ -91,10 +87,9 @@ export default function useApplicationData() {
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`)
       .then(() => {
-        setState(prev => ({ ...prev, appointments}));
-        updateSpots()
-      })
-      
+        setState((prev) => ({ ...prev, appointments }));
+        updateSpots();
+      });
   }
 
   return { state, setState, setDay, bookInterview, cancelInterview };
