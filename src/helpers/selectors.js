@@ -26,18 +26,26 @@ export const getInterview = (state, interview) => {
 };
 
 export const getInterviewersForDay = (state, filterDay) => {
-  
-  let filteredDay = state.days.filter(
 
-    day => day.name === filterDay)
+  //filter appointments array by given day 
+  let filteredDay = state.days.filter((day) => day.name === filterDay);
 
-    if (filteredDay.length === 0) {
-      return [];
-    } else {
-    const interviewers = filteredDay[0].interviewers
+  if (filteredDay.length === 0) {
+    return [];
+  } else {
+    const interviewers = filteredDay[0].interviewers;
     let availableInterviwers = interviewers.map((interviewer) => {
       return state.interviewers[interviewer];
     });
-    return availableInterviwers
+    return availableInterviwers;
   }
+};
+export const getLastAppointmentDivider = (state, day) => {
+  let appointments = getAppointmentsForDay(state, day)
+  
+  let lastAppointmentTime = appointments[appointments.length - 1].time
+  //remove am/pm from string
+  let time = Number(lastAppointmentTime.replace("pm", ""))
+
+  return time + 1
 };
